@@ -1,2 +1,2 @@
 echo ' ---> Hello runSh'
-sleep 60
+sleep 30
