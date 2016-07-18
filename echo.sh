@@ -1,4 +1,7 @@
-echo ' ---> Hello runSh'
-pwd
-ls 
-sleep 300
+echo "/output"
+cat /build/output
+
+echo "/previousOutput"
+cat /build/previousOutput
+
+echo "hello once" >> /build/output
