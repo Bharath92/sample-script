@@ -1,7 +1,10 @@
+echo "<========================>"
 echo "/output"
-cat /build/output
+ls /build/output
 
 echo "/previousOutput"
-cat /build/previousOutput
+echo "<========================>"
+ls /build/previousOutput
+echo "<========================>"
 
-echo "hello once" >> /build/output
+echo "hello once" >> /build/output/test.js
