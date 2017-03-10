@@ -13,3 +13,4 @@ unzip terraform_0.6.16_linux_386.zip
 
 echo "Copy state output to output directory"
 cp GET/sample-script/sample-script/terraform.tfstate output/
+
