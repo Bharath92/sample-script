@@ -7,8 +7,8 @@ export API_PARAMS_STR=$API_PARAMS_UP"_PARAMS"
 
 __initialize() {
   API_RESPONSE_FILE="apiResponseBody"
-  API_URL=$(eval echo "$"$API_PARAMS_STR"_APIURL")
-  API_TOKEN=$(eval echo "$"$API_PARAMS_STR"_APITOKEN")
+  API_URL=$(eval echo "$"$API_PARAMS_STR"_API_URL")
+  API_TOKEN=$(eval echo "$"$API_PARAMS_STR"_API_TOKEN")
   QUEUE_LIMIT=$(eval echo "$"$API_PARAMS_STR"_QUEUE_LIMIT")
   QUEUE_LIMIT_JOBTRIGGER=$(eval echo "$"$API_PARAMS_STR"_QUEUE_LIMIT_JOBTRIGGER")
   RESPONSE_CODE=404
@@ -60,7 +60,7 @@ shippable_get_queues() {
   shouldAlert=false
   local platform_queues_get_endpoint="platform/queues"
   __shippable_get $platform_queues_get_endpoint
-  queues=$(echo $RESPONSE_DATA | jq '[ .[] | select(.messages >= 0) ]')
+  queues=$(echo $RESPONSE_DATA | jq '[ .[] | select(.messages >= '$QUEUE_LIMIT') ]')
   queues_length=$(echo $queues | jq '. | length')
   if [ $queues_length -eq 0 ]; then
     exit 0
@@ -70,10 +70,7 @@ shippable_get_queues() {
     local queue_name=$(echo $queue | jq -r '.name')
     local queue_messages=$(echo $queue | jq '.messages')
     if [[ $queue_name != *".quarantine"* ]]; then
-      echo $queue_name
       if [ "$queue_name" = "job.trigger" ]; then
-        echo "***************************"
-        QUEUE_LIMIT_JOBTRIGGER=0
         if [ $queue_messages -gt $QUEUE_LIMIT_JOBTRIGGER ]; then
           shouldAlert=true
           __display_queue_messages $queue_name $queue_messages
