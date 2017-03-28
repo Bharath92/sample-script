@@ -79,5 +79,5 @@ shippable_get_queues() {
     exit 1
   fi
 }
-
+echo "queueuueueueueu"
 shippable_get_queues
