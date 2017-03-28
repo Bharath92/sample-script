@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-echo $1
 export CONTEXT=$1
 export API_PARAMS=$CONTEXT"_api_params"
 
@@ -77,8 +76,6 @@ shippable_get_queues() {
     if [[ $queue_name != *".quarantine"* ]]; then
       local queue_limit=$DEFAULT_QUEUE_LIMIT
       local defined_queue_limit=$(echo $QUEUE_LIMITS | jq -r '.["'$queue_name'"]')
-      echo $queue_name
-      echo $defined_queue_limit
       if [ "$defined_queue_limit" != "null" ]; then
         queue_limit=$defined_queue_limit
       fi
