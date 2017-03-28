@@ -11,10 +11,6 @@ __initialize() {
   API_TOKEN=$(eval echo "$"$API_PARAMS_STR"_APITOKEN")
   QUEUE_LIMIT=$(eval echo "$"$API_PARAMS_STR"_QUEUE_LIMIT")
   QUEUE_LIMIT_JOBTRIGGER=$(eval echo "$"$API_PARAMS_STR"_QUEUE_LIMIT_JOBTRIGGER")
-  echo $API_URL
-  echo $QUEUE_LIMIT
-  echo $QUEUE_LIMIT_JOBTRIGGER
-  QUEUE_LIMIT=0
   RESPONSE_CODE=404
   RESPONSE_DATA=""
   CURL_EXIT_CODE=0
@@ -73,8 +69,7 @@ shippable_get_queues() {
     local queue=$(echo $queues | jq '.['"$i-1"']')
     local queue_name=$(echo $queue | jq '.name')
     local queue_messages=$(echo $queue | jq '.messages')
-    echo $queue_name
-    if [[ $queue_name == *".quarantine"* ]]; then
+    if [[ $queue_name != *".quarantine"* ]]; then
       if [[ "$queue_name" = "job.trigger" ]]; then
         if [ $queue_messages -gt $QUEUE_LIMIT_JOBTRIGGER ]; then
           shouldAlert=true
