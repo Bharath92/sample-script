@@ -24,7 +24,7 @@ __shippable_get() {
   {
     RESPONSE_CODE=$(curl \
       -H "Content-Type: application/json" \
-      -H "Authorization: apiToken $API_TOKEN" \
+      -H "Authorization: $API_TOKEN" \
       -X GET $url \
       --silent --write-out "%{http_code}\n" \
       --output $API_RESPONSE_FILE)
