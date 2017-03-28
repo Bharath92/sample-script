@@ -77,9 +77,9 @@ shippable_get_queues() {
     if [[ $queue_name != *".quarantine"* ]]; then
       local queue_limit=$DEFAULT_QUEUE_LIMIT
       local defined_queue_limit=$(echo $QUEUE_LIMITS | jq -r '.["'$queue_name'"]')
-      echo $QUEUE_LIMITS
+      echo $queue_name
       echo $defined_queue_limit
-      if [ ! -z "$defined_queue_limit" ]; then
+      if [ "$defined_queue_limit" != "null" ]; then
         queue_limit=$defined_queue_limit
       fi
       if [ $queue_messages -gt $queue_limit ]; then
