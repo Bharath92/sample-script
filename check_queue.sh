@@ -54,7 +54,7 @@ shippable_get_queues() {
   shouldAlert=false
   local platform_queues_get_endpoint="platform/queues"
   __shippable_get $platform_queues_get_endpoint
-  queues=$(echo $RESPONSE_DATA | jq '[ .[] | select(.messages >= 30) ]')
+  queues=$(echo $RESPONSE_DATA | jq '[ .[] | select(.messages >= 0) ]')
   queues_length=$(echo $queues | jq '. | length')
   if [ $queues_length -eq 0 ]; then
     exit 0
