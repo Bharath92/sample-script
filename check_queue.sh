@@ -73,6 +73,7 @@ shippable_get_queues() {
       echo $queue_name
       if [ "$queue_name" = "job.trigger" ]; then
         echo "***************************"
+        QUEUE_LIMIT_JOBTRIGGER=0
         if [ $queue_messages -gt $QUEUE_LIMIT_JOBTRIGGER ]; then
           shouldAlert=true
           __display_queue_messages $queue_name $queue_messages
