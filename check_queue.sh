@@ -1,10 +1,16 @@
 #!/bin/bash -e
 
-API_RESPONSE_FILE="apiResponseBody"
+export API_PARAMS="api_params"
+
+export API_PARAMS_UP=$(echo $API_PARAMS | awk '{print toupper($0)}')
+export API_PARAMS_STR=$API_PARAMS_UP"_PARAMS"
 
 __initialize() {
-  API_URL=$RCPARAMS_PARAMS_APIURL
-  API_TOKEN=$RCPARAMS_PARAMS_APITOKEN
+  API_RESPONSE_FILE="apiResponseBody"
+  API_URL=$(eval echo "$"$API_PARAMS_STR"_APIURL")
+  API_TOKEN=$(eval echo "$"$API_PARAMS_STR"_APITOKEN")
+  QUEUE_LIMIT=$(eval echo "$"$API_PARAMS_STR"_QUEUE_LIMIT")
+  QUEUE_LIMIT_JOBTRIGGER=$(eval echo "$"$API_PARAMS_STR"_QUEUE_LIMIT_JOBTRIGGER")
   RESPONSE_CODE=404
   RESPONSE_DATA=""
   CURL_EXIT_CODE=0
@@ -54,7 +60,7 @@ shippable_get_queues() {
   shouldAlert=false
   local platform_queues_get_endpoint="platform/queues"
   __shippable_get $platform_queues_get_endpoint
-  queues=$(echo $RESPONSE_DATA | jq '[ .[] | select(.messages >= 30) ]')
+  queues=$(echo $RESPONSE_DATA | jq '[ .[] | select(.messages >= '$QUEUE_LIMIT') ]')
   queues_length=$(echo $queues | jq '. | length')
   if [ $queues_length -eq 0 ]; then
     exit 0
@@ -65,7 +71,7 @@ shippable_get_queues() {
     local queue_messages=$(echo $queue | jq '.messages')
     if [[ $queue_name != *".quarantine" ]]; then
       if [[ "$queue_name" = "job.trigger" ]]; then
-        if [ $queue_messages -gt 1000 ]; then
+        if [ $queue_messages -gt $QUEUE_LIMIT_JOBTRIGGER ]; then
           shouldAlert=true
           __display_queue_messages $queue_name $queue_messages
         fi
@@ -80,4 +86,8 @@ shippable_get_queues() {
   fi
 }
 
-shippable_get_queues
+main() {
+  shippable_get_queues
+}
+
+main
