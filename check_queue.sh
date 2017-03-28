@@ -8,8 +8,8 @@ export API_PARAMS_UP=$(echo $API_PARAMS | awk '{print toupper($0)}')
 export API_PARAMS_STR=$API_PARAMS_UP"_PARAMS"
 
 __initialize() {
-  echo $CONTEXT_api_params
   echo $API_PARAMS
+  echo $API_PARAMS_STR
   API_RESPONSE_FILE="apiResponseBody"
   API_URL=$(eval echo "$"$API_PARAMS_STR"_API_URL")
   API_TOKEN=$(eval echo "$"$API_PARAMS_STR"_API_TOKEN")
@@ -28,6 +28,7 @@ __display_queue_messages() {
 }
 
 __shippable_get() {
+  echo "shippable_get"
   __initialize
 
   local url="$API_URL/$1"
