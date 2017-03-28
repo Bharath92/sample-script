@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+echo $1
 export CONTEXT=$1
 export API_PARAMS="$CONTEXT_api_params"
 
