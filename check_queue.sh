@@ -2,7 +2,7 @@
 
 echo $1
 export CONTEXT=$1
-export API_PARAMS="$CONTEXT_api_params"
+export API_PARAMS=$CONTEXT"_api_params"
 
 export API_PARAMS_UP=$(echo $API_PARAMS | awk '{print toupper($0)}')
 export API_PARAMS_STR=$API_PARAMS_UP"_PARAMS"
