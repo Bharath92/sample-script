@@ -77,7 +77,7 @@ shippable_get_queues() {
         queue_limit=$defined_queue_limit
       fi
       echo $queue_name $queue_limit $queue_messages
-      if [ $queue_messages -gt $queue_limit ]; then
+      if [ $queue_messages -ge $queue_limit ]; then
         shouldAlert=true
         __display_queue_messages $queue_name $queue_messages
       fi
