@@ -67,11 +67,11 @@ shippable_get_queues() {
   fi
   for i in $(seq 1 $queues_length); do
     local queue=$(echo $queues | jq '.['"$i-1"']')
-    local queue_name=$(echo $queue | jq '.name')
+    local queue_name=$(echo $queue | jq -r '.name')
     local queue_messages=$(echo $queue | jq '.messages')
     if [[ $queue_name != *".quarantine"* ]]; then
       echo $queue_name
-      if [[ "$queue_name" == "job.trigger" ]]; then
+      if [ "$queue_name" = "job.trigger" ]; then
         echo "***************************"
         if [ $queue_messages -gt $QUEUE_LIMIT_JOBTRIGGER ]; then
           shouldAlert=true
