@@ -20,6 +20,8 @@ echo "|___ $message"
 __shippable_get() {
   __initialize
 
+  echo $RCPARAMS_PARAMS_APITOKEN
+  echo $API_TOKEN
   local url="$API_URL/$1"
   {
     RESPONSE_CODE=$(curl \
