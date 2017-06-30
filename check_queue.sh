@@ -89,6 +89,7 @@ shippable_get_queues() {
 }
 
 main() {
+  # echo lol
   shippable_get_queues
 }
 
